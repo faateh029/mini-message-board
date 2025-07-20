@@ -1,12 +1,17 @@
- <h1>Message</h1>
-    <div>
-        
-        
-         <p>User:<%= message.user %></p>
-         <p>Message:<%= message.text %></p>
-         <p>Added:<%= (message.added).toLocaleString()%></p>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <link rel="stylesheet" href="/styles.css">
+   </head>
+   <body>
+      <h1>Message</h1>
+      <div>
+         <p>User: <%= message.user %></p>
+         <p>Message: <%= message.text %></p>
+         <p>Added: <%= (message.added).toLocaleString()%></p>
          <p>Message ID: <%= message.id%></p>
-         <a href="/">Go back</a>   
+         <a href="/">Go back</a>
          <hr>
-        
-    </div>
+      </div>
+   </body>
+</html>

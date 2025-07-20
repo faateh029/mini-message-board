@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
+<link rel="stylesheet" href="/styles.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mini Message Board</title>
    
-    <!-- <link rel = "stylesheet" href="/styles.css"> -->
+  
   </head>
   <body>
     <p>
@@ -13,19 +14,27 @@
     <a href="/new">New Message</a>
   </p>
     
-    <h1>Messages</h1>
+     <h1>Messages</h1> 
     <div>
         
         <% messages.forEach((msg , index)=>{ %>
-         <p>User:<%= msg.user %></p>
-         <p>Message:<%= msg.text %></p>
+         <p>User: <%= msg.user %></p>
+         <p>Message: <%= msg.text %></p>
          <a href="/messages/<%=msg.id%>">Details</a><br>
-         <a href="/messages/<%=msg.id%>/edit">Edit</a>   
-         <hr>
+         <a href="/messages/<%=msg.id%>/edit">Edit</a>   <br>
+        <a href="#" onclick="confirmDelete('<%= msg.id %>')"> Delete</a>
+        <form id="delete-<%= msg.id %>" method="POST" action="/messages/<%= msg.id %>/delete" style="display: none;"></form>
+         <hr class="my-4">
         <%})%>
     </div>
     <button ><a href="/new">Add New Message:</button></a>
     <%- include('footer') %>
-    <script></script>
+    <script>
+         function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this message?")) {
+      document.getElementById(`delete-${id}`).submit();
+    }
+  }
+    </script>
   </body>
 </html>
