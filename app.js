@@ -62,7 +62,14 @@ app.get('/messages/:id', (req, res) => {
   }
   res.render('singleMsg', { message: msg });
 });
-
+app.get('/messages/:id/edit' , (req,res)=>{
+    const id = req.params.id ; 
+    const msg = messages.find((msg)=>msg.id===id);
+    if(!msg){
+        res.status(404).send('Message not Found');
+    }
+    res.render('edit'  , {message:msg})
+})
 app.listen(PORT, (req,res)=>{
     console.log(`server running on port ${PORT}`)
 })
