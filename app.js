@@ -68,7 +68,20 @@ app.get('/messages/:id/edit' , (req,res)=>{
     if(!msg){
         res.status(404).send('Message not Found');
     }
-    res.render('edit'  , {message:msg})
+    res.render('edit' , {message:msg})
+})
+
+app.post('/messages/:id/edit' , (req,res)=>{
+    const id = req.params.id;
+    const msg = messages.find((msg)=>msg.id===id);
+    console.log(msg);
+      if(!msg){
+       return res.status(404).send('Message not Found');
+    }
+    msg.user = req.body.user;
+    msg.text = req.body.text;
+    msg.added = new Date();
+    res.redirect('/')
 })
 app.listen(PORT, (req,res)=>{
     console.log(`server running on port ${PORT}`)
