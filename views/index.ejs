@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mini Message Board</title>
+   
+    <!-- <link rel = "stylesheet" href="/styles.css"> -->
+  </head>
+  <body>
+
+    <p>Welcome <%=username%>!</p>
+    <h1>Messages</h1>
+    <div>
+        
+        <% messages.forEach((msg)=>{ %>
+         <p>User:<%= msg.user %></p>
+         <p>Message:<%= msg.text %></p>
+         <p>Added:<%= (msg.added).toLocaleString()%></p>   
+         <hr>
+        <%})%>
+        
+    </div>
+    <button class="new-msg-button">Add New Message:</button>
+    <%- include('footer') %>
+    <script></script>
+  </body>
+</html>
