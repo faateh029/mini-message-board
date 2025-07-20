@@ -8,20 +8,22 @@
     <!-- <link rel = "stylesheet" href="/styles.css"> -->
   </head>
   <body>
-
-    <p>Welcome <%=username%>!</p>
+    <p>
+    <a href="/" style="margin-right: 10px;">Home</a>
+    <a href="/new">New Message</a>
+  </p>
+    
     <h1>Messages</h1>
     <div>
         
-        <% messages.forEach((msg)=>{ %>
+        <% messages.forEach((msg , index)=>{ %>
          <p>User:<%= msg.user %></p>
          <p>Message:<%= msg.text %></p>
-         <p>Added:<%= (msg.added).toLocaleString()%></p>   
+         <a href="/messages/<%=msg.id%>">Details</a>   
          <hr>
         <%})%>
-        
     </div>
-    <button class="new-msg-button">Add New Message:</button>
+    <button ><a href="/new">Add New Message:</button></a>
     <%- include('footer') %>
     <script></script>
   </body>

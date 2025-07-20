@@ -9,22 +9,29 @@ const messages = [
     {
      "user":"Faateh" , 
      "text":"Be honest with yourself",
-     "added": new Date()
+     "added": new Date(),
+     "id": Math.random().toString(36).substring(2)
     },
      {
      "user":"Faateh2" , 
      "text":"Be honest with yourself2",
-     "added": new Date()
+     "added": new Date(),
+     
+     "id": Math.random().toString(36).substring(2)
     },
      {
      "user":"Faateh3" , 
      "text":"Be honest with yourself3",
-     "added": new Date()
+     "added": new Date(),
+     
+     "id": Math.random().toString(36).substring(2)
     },
      {
      "user":"Faateh4" , 
      "text":"Be honest with yourself4",
-     "added": new Date()
+     "added": new Date(),
+
+     "id": Math.random().toString(36).substring(2)
     }
 
 ]
@@ -32,13 +39,29 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname , "Public")));
 app.use(express.urlencoded({extented:false}));
-app.use((req,res,next)=>{
-    app.locals.username = "FAATEH029";
-    next();
-})
+
 app.get('/' , (req,res)=>{
     res.render('index' ,{messages:messages})
 })
+app.get('/new',(req,res)=>{
+    res.render('new');
+})
+ app.post('/new' , (req,res)=>{
+    const user = req.body.user;
+    const text = req.body.text;
+    const added= new Date();
+    const id =  Math.random().toString(36).substring(2)
+    messages.push({user , text, added , id})
+    res.redirect('/')
+ })
+app.get('/messages/:id', (req, res) => {
+  const id = req.params.id;
+  const msg = messages.find((msg)=>msg.id===id);
+  if (!msg) {
+    return res.status(404).send('Message not found');
+  }
+  res.render('singleMsg', { message: msg });
+});
 
 app.listen(PORT, (req,res)=>{
     console.log(`server running on port ${PORT}`)
