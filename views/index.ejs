@@ -11,13 +11,12 @@
   <body>
     <p>
     <a href="/" style="margin-right: 10px;">Home</a>
-    <a href="/new">New Message</a>
   </p>
     
      <h1>Messages</h1> 
     <div>
         
-        <% messages.forEach((msg , index)=>{ %>
+        <% messages.forEach((msg)=>{ %>
          <p>User: <%= msg.user %></p>
          <p>Message: <%= msg.text %></p>
          <a href="/messages/<%=msg.id%>">Details</a><br>
