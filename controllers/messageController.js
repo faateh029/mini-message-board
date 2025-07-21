@@ -1,3 +1,4 @@
+ import { loadMessages, saveMessages } from '../models/messageModel.js';;
  let messages = await loadMessages();
 export const renderIndex = (req, res) => {
   res.render('index', { messages });

@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router } from "express";
-import { renderIndex , renderForm , addNewMessage , msgDetails, editMsg,submitEdit,deleteMsg, } from "../controllers/messageController";
+import { renderIndex , renderForm , addNewMessage , msgDetails, editMsg,submitEdit,deleteMsg, } from "../controllers/messageController.js";
 const router = Router()
 router.get('/',renderIndex);
 router.get('/new', renderForm);
