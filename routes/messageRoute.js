@@ -4,9 +4,9 @@ import { renderIndex , renderForm , addNewMessage , msgDetails, editMsg,submitEd
 const router = Router()
 router.get('/',renderIndex);
 router.get('/new', renderForm);
-router.post('/new' , submitEdit);
+router.post('/new' , addNewMessage);
 router.get('/messages/:id' , msgDetails);
 router.get('/messages/:id/edit', editMsg);
 router.post('/messages/:id/edit', submitEdit);
 router.post('/messages/:id/delete', deleteMsg);
-export default Router;
+export default router;

@@ -1,6 +1,7 @@
- import { loadMessages, saveMessages } from '../models/messageModel.js';;
- let messages = await loadMessages();
-export const renderIndex = (req, res) => {
+ import { loadMessages, saveMessages } from '../models/messageModel.js';
+
+export const renderIndex = async (req, res) => {
+    const messages = await loadMessages();
   res.render('index', { messages });
 }
 
@@ -9,6 +10,7 @@ export const renderForm= (req , res)=>{
 }
 
 export const addNewMessage = async (req, res) => {
+  const messages = await loadMessages();
   const user = req.body.user;
   const text = req.body.text;
   const added = new Date();
@@ -19,7 +21,8 @@ export const addNewMessage = async (req, res) => {
 }
 
 
-export const msgDetails = (req, res) => {
+export const msgDetails = async (req, res) => {
+    const messages = await loadMessages();
   const id = req.params.id;
   const msg = messages.find((msg) => msg.id === id);
   if (!msg) {
@@ -29,7 +32,8 @@ export const msgDetails = (req, res) => {
 }
 
 
-export const editMsg = (req, res) => {
+export const editMsg = async (req, res) => {
+    const messages = await loadMessages();
   const id = req.params.id;
   const msg = messages.find((msg) => msg.id === id);
   if (!msg) {
@@ -39,6 +43,7 @@ export const editMsg = (req, res) => {
 }
 
 export const submitEdit = async (req, res) => {
+    const messages = await loadMessages();
   const id = req.params.id;
   const msg = messages.find((msg) => msg.id === id);
   if (!msg) {
@@ -53,6 +58,7 @@ export const submitEdit = async (req, res) => {
 
 
 export const deleteMsg = async (req, res) => {
+    const messages = await loadMessages();
   const id = req.params.id;
   const index = messages.findIndex(msg => msg.id === id);
   if (index !== -1) messages.splice(index, 1);
