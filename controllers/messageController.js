@@ -58,10 +58,11 @@ export const submitEdit = async (req, res) => {
 
 
 export const deleteMsg = async (req, res) => {
-    const messages = await loadMessages();
+  //const messages = await loadMessages();
   const id = req.params.id;
-  const index = messages.findIndex(msg => msg.id === id);
-  if (index !== -1) messages.splice(index, 1);
-  await saveMessages(messages);
+  const index = await pool.query(`SELECT * from messages WHERE id = $1` , [id])
+  if (index.rows.length ===0 ) {return res.status(404).json({msg:"Msg to be deleted does not exist"})}
+  //await saveMessages(messages);
+  await pool.query(`DELETE from messages WHERE id = $1` , [id])
   res.redirect('/');
 }
