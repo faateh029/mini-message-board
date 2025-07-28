@@ -1,7 +1,7 @@
  import { loadMessages, saveMessages } from '../models/messageModel.js';
 
 export const renderIndex = async (req, res) => {
-    const messages = await loadMessages();
+    const messages = await pool.query(`SELECT * FROM messages`);
   res.render('index', { messages });
 }
 
@@ -13,10 +13,11 @@ export const addNewMessage = async (req, res) => {
   const messages = await loadMessages();
   const user = req.body.user;
   const text = req.body.text;
-  const added = new Date();
-  const id = Math.random().toString(36).substring(2);
-  messages.push({ user, text, added, id });
-  await saveMessages(messages);
+  await pool.query(`INSERT INTO messages (username,text) VALUES ($1 , $2)` , [user,text])
+  //const added = new Date();
+  //const id = Math.random().toString(36).substring(2);
+ // messages.push({ user, text, added, id });
+  //await saveMessages(messages);
   res.redirect('/');
 }
 
