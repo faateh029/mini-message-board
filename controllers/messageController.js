@@ -29,13 +29,13 @@ export const msgDetails = async (req, res) => {
 
 
 export const editMsg = async (req, res) => {
-    const messages = await loadMessages();
+    //const messages = await loadMessages();
   const id = req.params.id;
-  const msg = messages.find((msg) => msg.id === id);
-  if (!msg) {
+  const msg = await pool.query(`SELECT * FROM messages WHERE id = ($1)` , [id]); 
+  if (msg.rows.length===0) {
     return res.status(404).send('Message not Found');
   }
-  res.render('edit', { message: msg });
+  res.render('edit', { message: msg.rows[0] });
 }
 
 export const submitEdit = async (req, res) => {
