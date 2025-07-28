@@ -17,7 +17,7 @@
     <div>
         
         <% messages.forEach((msg)=>{ %>
-         <p>User: <%= msg.user %></p>
+         <p>User: <%= msg.username %></p>
          <p>Message: <%= msg.text %></p>
          <a href="/messages/<%=msg.id%>">Details</a><br>
          <a href="/messages/<%=msg.id%>/edit">Edit</a>   <br>

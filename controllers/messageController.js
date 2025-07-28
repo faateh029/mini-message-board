@@ -1,8 +1,8 @@
- import { loadMessages, saveMessages } from '../models/messageModel.js';
 
+import {pool} from '../db/pool.js';
 export const renderIndex = async (req, res) => {
-    const messages = await pool.query(`SELECT * FROM messages`);
-  res.render('index', { messages });
+  const messages = await pool.query(`SELECT * FROM messages`);
+  res.render('index', { messages:messages.rows });
 }
 
 export const renderForm= (req , res)=>{
@@ -10,7 +10,7 @@ export const renderForm= (req , res)=>{
 }
 
 export const addNewMessage = async (req, res) => {
-  const messages = await loadMessages();
+  //const messages = await loadMessages();
   const user = req.body.user;
   const text = req.body.text;
   await pool.query(`INSERT INTO messages (username,text) VALUES ($1 , $2)` , [user,text])
@@ -19,7 +19,9 @@ export const addNewMessage = async (req, res) => {
 
 
 export const msgDetails = async (req, res) => {
-  const id = req.params.id;
+  console.log("REQ.PARAMS.ID:", req.params.id);
+
+  const id = Number(req.params.id);
   const msg = await pool.query(`SELECT * FROM messages WHERE id = ($1)` , [id])
   if (msg.rows.length===0) {
     return res.status(404).send('Message not found');
@@ -30,7 +32,7 @@ export const msgDetails = async (req, res) => {
 
 export const editMsg = async (req, res) => {
     //const messages = await loadMessages();
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const msg = await pool.query(`SELECT * FROM messages WHERE id = ($1)` , [id]); 
   if (msg.rows.length===0) {
     return res.status(404).send('Message not Found');
@@ -40,15 +42,17 @@ export const editMsg = async (req, res) => {
 
 export const submitEdit = async (req, res) => {
    // const messages = await loadMessages();
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const msg = await pool.query(`SELECT * FROM messages WHERE id = ($1)` , [id]); 
   if (msg.rows.length===0) {
     return res.status(404).send('Message not Found');
   }
+  const username = req.body.user;
+  const text = req.body.text;
   await pool.query(`UPDATE messages 
                     SET  username = ($1) , text = ($2) , 
                     added = CURRENT_TIMESTAMP  
-                    WHERE id=($3)` , [req.body.user , req.body.text , id])
+                    WHERE id=($3)` , [username ,text , id])
   // msg.user = req.body.user;
   // msg.text = req.body.text;
   // msg.added = new Date();
@@ -59,7 +63,7 @@ export const submitEdit = async (req, res) => {
 
 export const deleteMsg = async (req, res) => {
   //const messages = await loadMessages();
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const index = await pool.query(`SELECT * from messages WHERE id = $1` , [id])
   if (index.rows.length ===0 ) {return res.status(404).json({msg:"Msg to be deleted does not exist"})}
   //await saveMessages(messages);
