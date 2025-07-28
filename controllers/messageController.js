@@ -39,16 +39,20 @@ export const editMsg = async (req, res) => {
 }
 
 export const submitEdit = async (req, res) => {
-    const messages = await loadMessages();
+   // const messages = await loadMessages();
   const id = req.params.id;
-  const msg = messages.find((msg) => msg.id === id);
-  if (!msg) {
+  const msg = await pool.query(`SELECT * FROM messages WHERE id = ($1)` , [id]); 
+  if (msg.rows.length===0) {
     return res.status(404).send('Message not Found');
   }
-  msg.user = req.body.user;
-  msg.text = req.body.text;
-  msg.added = new Date();
-  await saveMessages(messages);
+  await pool.query(`UPDATE messages 
+                    SET  username = ($1) , text = ($2) , 
+                    added = CURRENT_TIMESTAMP  
+                    WHERE id=($3)` , [req.body.user , req.body.text , id])
+  // msg.user = req.body.user;
+  // msg.text = req.body.text;
+  // msg.added = new Date();
+  //await saveMessages(messages);
   res.redirect('/');
 }
 
